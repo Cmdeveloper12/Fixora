@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
 
     # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://madhurani@localhost:5432/fixora_db")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./fixora.db")
 
     # Admin Settings
     ADMIN_NAME: str = os.getenv("ADMIN_NAME", "Madhuri Shewale")

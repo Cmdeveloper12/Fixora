@@ -1,4 +1,8 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1').replace(/\/$/, '');
+let rawBase = (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/v1').replace(/\/$/, '');
+if (!rawBase.endsWith('/api/v1')) {
+  rawBase = `${rawBase}/api/v1`;
+}
+const API_BASE = rawBase;
 
 export async function apiRequest<T = any>(
   endpoint: string,

@@ -49,8 +49,8 @@ export const Navbar: React.FC = () => {
           
           {/* Logo & Tagline */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform flex items-center justify-center bg-black border border-slate-700">
-              <img src="/logo.png" alt="Fixora Logo" className="w-full h-full object-cover" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform flex items-center justify-center bg-black border border-slate-700 shrink-0" style={{ width: '40px', height: '40px', minWidth: '40px', minHeight: '40px', overflow: 'hidden' }}>
+              <img src="/logo.png" alt="Fixora Logo" className="w-full h-full object-cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
@@ -101,16 +101,6 @@ export const Navbar: React.FC = () => {
               Verified Experts
             </Link>
 
-            <a
-              href="/presentation.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800 shadow-sm"
-              title="Open FIXORA Interactive PPT Presentation in Browser"
-            >
-              <Presentation className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-              <span>PPT Deck</span>
-            </a>
 
             {/* Role-Specific Quick Links */}
             {role === 'CUSTOMER' && (
@@ -309,16 +299,6 @@ export const Navbar: React.FC = () => {
             >
               Verified Technicians
             </Link>
-            <a
-              href="/presentation.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-2 p-2 text-sm font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 rounded-xl"
-            >
-              <Presentation className="w-4 h-4" />
-              <span>Project Presentation (PPT)</span>
-            </a>
 
             {isAuthenticated ? (
               <>
