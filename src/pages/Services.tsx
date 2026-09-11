@@ -4,14 +4,16 @@ import { Search, Wrench, Clock, Tag, ArrowRight, CheckCircle2, Zap, Droplets, Sn
 import { api } from '../api/client';
 import { ServiceCategory, Service } from '../types';
 
+import { FALLBACK_CATEGORIES, FALLBACK_ALL_SERVICES } from '../data/mockData';
+
 export const Services: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<ServiceCategory[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
+  const [categories, setCategories] = useState<ServiceCategory[]>(FALLBACK_CATEGORIES);
+  const [services, setServices] = useState<Service[]>(FALLBACK_ALL_SERVICES);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const catIdParam = searchParams.get('category');
@@ -25,16 +27,26 @@ export const Services: React.FC = () => {
   }, [selectedCategory]);
 
   const loadData = async () => {
-    setLoading(true);
     try {
       const [cats, svcs] = await Promise.all([
         api.getCategories(),
         api.getServices(selectedCategory || undefined)
       ]);
-      setCategories(cats);
-      setServices(svcs);
+      if (cats && cats.length > 0) setCategories(cats);
+      if (svcs && svcs.length > 0) {
+        setServices(svcs);
+      } else if (selectedCategory) {
+        setServices(FALLBACK_ALL_SERVICES.filter(s => s.category_id === selectedCategory));
+      } else {
+        setServices(FALLBACK_ALL_SERVICES);
+      }
     } catch (err) {
-      console.error(err);
+      console.warn('API error in Services, using reliable fallback catalog:', err);
+      if (selectedCategory) {
+        setServices(FALLBACK_ALL_SERVICES.filter(s => s.category_id === selectedCategory));
+      } else {
+        setServices(FALLBACK_ALL_SERVICES);
+      }
     } finally {
       setLoading(false);
     }
